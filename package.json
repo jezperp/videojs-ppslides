@@ -1,0 +1,80 @@
+{
+  "name": "videojs-ppslides",
+  "version": "0.0.0",
+  "description": "Plugin with Power Point presentation slides inside videojs player",
+  "main": "dist/videojs-ppslides.cjs.js",
+  "module": "dist/videojs-ppslides.es.js",
+  "generator-videojs-plugin": {
+    "version": "7.6.3"
+  },
+  "browserslist": [
+    "defaults",
+    "ie 11"
+  ],
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "npm-run-all -p build:*",
+    "build:js": "rollup -c scripts/rollup.config.js",
+    "clean": "shx rm -rf ./dist ./test/dist",
+    "postclean": "shx mkdir -p ./dist ./test/dist",
+    "lint": "vjsstandard",
+    "server": "karma start scripts/karma.conf.js --singleRun=false --auto-watch",
+    "start": "npm-run-all -p server watch",
+    "pretest": "npm-run-all lint build",
+    "test": "npm-run-all test:*",
+    "posttest": "shx cat test/dist/coverage/text.txt",
+    "test:unit": "karma start scripts/karma.conf.js",
+    "test:verify": "vjsverify --verbose",
+    "update-changelog": "conventional-changelog -p videojs -i CHANGELOG.md -s",
+    "preversion": "npm test",
+    "version": "is-prerelease || npm run update-changelog && git add CHANGELOG.md",
+    "watch": "npm-run-all -p watch:*",
+    "watch:js": "npm run build:js -- -w",
+    "prepublishOnly": "npm-run-all build test:verify"
+  },
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "keywords": [
+    "videojs",
+    "videojs-plugin"
+  ],
+  "author": "Jesper Pettersson <jezperp@gmail.com>",
+  "license": "MIT",
+  "vjsstandard": {
+    "ignore": [
+      "dist",
+      "docs",
+      "test/dist"
+    ]
+  },
+  "files": [
+    "CONTRIBUTING.md",
+    "dist/",
+    "docs/",
+    "index.html",
+    "scripts/",
+    "src/",
+    "test/"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run test"
+    }
+  },
+  "dependencies": {
+    "global": "^4.3.2",
+    "video.js": "^6 || ^7"
+  },
+  "devDependencies": {
+    "@videojs/generator-helpers": "~1.0.0",
+    "karma": "^4.0.0",
+    "rollup": "^1.10.0",
+    "sinon": "^7.2.2",
+    "videojs-generate-karma-config": "~5.2.0",
+    "videojs-generate-rollup-config": "^5.0.1",
+    "videojs-generator-verify": "~1.2.0",
+    "videojs-standard": "^8.0.3"
+  }
+}
