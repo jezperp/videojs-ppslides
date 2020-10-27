@@ -25,20 +25,19 @@ export default class SlidesModalContent {
 
   _createContent() {
     // const wrapper = document.createElement('div');
+    const wrapper = '<div class="vjs-ppslides"></div>';
 
-    const wrapper = `<div class="vjs-ppslides">
-      <div class="vjs-ppslides__top hidden-sm">
-        <div class="vjs-ppslides__title">${this.player.localize('Slides')}</div>
-      </div>
+    wrapper.innerHTML = `<div class="vjs-ppslides__top hidden-sm">
+                          <div class="vjs-ppslides__title">${this.player.localize('Slides')}</div>
+                        </div>
 
-      <div class="vjs-ppslides__middle">
+                        <div class="vjs-ppslides__middle">
 
-      </div>
+                        </div>
 
-      <div class="vjs-ppslides__bottom">
+                        <div class="vjs-ppslides__bottom">
 
-      </div>
-    </div>`;
+                        </div>`;
 
     this.content = wrapper;
   }

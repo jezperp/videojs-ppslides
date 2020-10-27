@@ -1,4 +1,4 @@
-/*! @name videojs-ppslides @version 0.0.2 @license MIT */
+/*! @name videojs-ppslides @version 0.0.3 @license MIT */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('video.js')) :
   typeof define === 'function' && define.amd ? define(['video.js'], factory) :
@@ -15,7 +15,7 @@
 
   var inheritsLoose = _inheritsLoose;
 
-  var version = "0.0.2";
+  var version = "0.0.3";
 
   var Button = videojs.getComponent('Button');
   /**
@@ -88,7 +88,8 @@
 
     _proto._createContent = function _createContent() {
       // const wrapper = document.createElement('div');
-      var wrapper = "<div class=\"vjs-ppslides\">\n      <div class=\"vjs-ppslides__top hidden-sm\">\n        <div class=\"vjs-ppslides__title\">" + this.player.localize('Slides') + "</div>\n      </div>\n\n      <div class=\"vjs-ppslides__middle\">\n\n      </div>\n\n      <div class=\"vjs-ppslides__bottom\">\n\n      </div>\n    </div>";
+      var wrapper = '<div class="vjs-ppslides"></div>';
+      wrapper.innerHTML = "<div class=\"vjs-ppslides__top hidden-sm\">\n                          <div class=\"vjs-ppslides__title\">" + this.player.localize('Slides') + "</div>\n                        </div>\n\n                        <div class=\"vjs-ppslides__middle\">\n\n                        </div>\n\n                        <div class=\"vjs-ppslides__bottom\">\n\n                        </div>";
       this.content = wrapper;
     };
 
