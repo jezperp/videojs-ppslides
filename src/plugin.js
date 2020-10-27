@@ -4,7 +4,15 @@ import {version as VERSION} from '../package.json';
 const Plugin = videojs.getPlugin('plugin');
 
 // Default options for the plugin.
-const defaults = {};
+const defaults = {
+  position: 'bottom',
+  visibleSlides: 6,
+  slideinstances: []
+};
+
+// Import components
+import SlidesButton from './SlidesButton';
+import SlidesOverlay from './SlidesOverlay';
 
 /**
  * An advanced Video.js plugin. For more information on the API
@@ -34,6 +42,9 @@ class Ppslides extends Plugin {
 
     this.player.ready(() => {
       this.player.addClass('vjs-ppslides');
+      player.addClass('vjs-videojs-ppslides');
+      player.getChild('controlBar').addChild('SlidesButton', options);
+      player.addChild('SlidesOverlay', options);
     });
   }
 }
@@ -45,6 +56,8 @@ Ppslides.defaultState = {};
 Ppslides.VERSION = VERSION;
 
 // Register the plugin with video.js.
+videojs.registerComponent('SlidesButton', SlidesButton);
+videojs.registerComponent('SlidesOverlay', SlidesOverlay);
 videojs.registerPlugin('ppslides', Ppslides);
 
 export default Ppslides;

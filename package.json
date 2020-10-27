@@ -1,6 +1,6 @@
 {
   "name": "videojs-ppslides",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Plugin with Power Point presentation slides inside videojs player",
   "main": "dist/videojs-ppslides.cjs.js",
   "module": "dist/videojs-ppslides.es.js",
@@ -11,6 +11,10 @@
     "defaults",
     "ie 11"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jezperp/videojs-ppslides.git"
+  },
   "scripts": {
     "prebuild": "npm run clean",
     "build": "npm-run-all -p build:*",
@@ -64,6 +68,7 @@
     }
   },
   "dependencies": {
+    "@babel/runtime": "^7.12.1",
     "global": "^4.3.2",
     "video.js": "^6 || ^7"
   },
