@@ -1,9 +1,9 @@
-/*! @name videojs-ppslides @version 0.0.3 @license MIT */
+/*! @name videojs-ppslides @version 0.0.4 @license MIT */
 import _inheritsLoose from '@babel/runtime/helpers/inheritsLoose';
 import videojs from 'video.js';
 import _createClass from '@babel/runtime/helpers/createClass';
 
-var version = "0.0.3";
+var version = "0.0.4";
 
 var Button = videojs.getComponent('Button');
 /**
@@ -57,10 +57,12 @@ function () {
   };
 
   _proto._createContent = function _createContent() {
-    // const wrapper = document.createElement('div');
-    var wrapper = '<div class="vjs-ppslides"></div>';
-    wrapper.innerHTML = "<div class=\"vjs-ppslides__top hidden-sm\">\n                          <div class=\"vjs-ppslides__title\">" + this.player.localize('Slides') + "</div>\n                        </div>\n\n                        <div class=\"vjs-ppslides__middle\">\n\n                        </div>\n\n                        <div class=\"vjs-ppslides__bottom\">\n\n                        </div>";
-    this.content = wrapper;
+    /* eslint-disable */
+    var wrapper = document.createElement('div');
+    /* eslint-enable */
+
+    wrapper.innerHTML = "<div class=\"vjs-ppslides\">\n      <div class=\"vjs-ppslides__top hidden-sm\">\n        <div class=\"vjs-ppslides__title\">" + this.player.localize('Slides') + "</div>\n      </div>\n\n      <div class=\"vjs-ppslides__middle\">\n\n      </div>\n\n      <div class=\"vjs-ppslides__bottom\">\n\n      </div>\n    </div>";
+    this.content = wrapper.firstChild;
   };
 
   _proto._getSlidesItems = function _getSlidesItems() {

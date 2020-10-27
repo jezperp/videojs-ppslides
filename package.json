@@ -1,6 +1,6 @@
 {
   "name": "videojs-ppslides",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Plugin with Power Point presentation slides inside videojs player",
   "main": "dist/videojs-ppslides.cjs.js",
   "module": "dist/videojs-ppslides.es.js",
