@@ -61,9 +61,9 @@ function () {
   };
 
   _proto._createContent = function _createContent() {
-    var wrapper = document.createElement('div');
-    wrapper.innerHTML = "<div class=\"vjs-ppslides\">\n      <div class=\"vjs-ppslides__top hidden-sm\">\n        <div class=\"vjs-ppslides__title\">" + this.player.localize('Slides') + "</div>\n      </div>\n\n      <div class=\"vjs-ppslides__middle\">\n\n      </div>\n\n      <div class=\"vjs-ppslides__bottom\">\n\n      </div>\n    </div>";
-    this.content = wrapper.firstChild;
+    // const wrapper = document.createElement('div');
+    var wrapper = "<div class=\"vjs-ppslides\">\n      <div class=\"vjs-ppslides__top hidden-sm\">\n        <div class=\"vjs-ppslides__title\">" + this.player.localize('Slides') + "</div>\n      </div>\n\n      <div class=\"vjs-ppslides__middle\">\n\n      </div>\n\n      <div class=\"vjs-ppslides__bottom\">\n\n      </div>\n    </div>";
+    this.content = wrapper;
   };
 
   _proto._getSlidesItems = function _getSlidesItems() {
