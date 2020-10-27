@@ -43,7 +43,6 @@ export default class SlidesModalContent {
     this.content = wrapper.firstChild;
   }
 
-
   _getSlidesItems() {
     const slidesItems = [];
 
