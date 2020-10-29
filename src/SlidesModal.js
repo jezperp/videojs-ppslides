@@ -9,12 +9,14 @@ class SlidesModal extends ModalDialog {
     super(player, options);
 
     this.playerClassName = 'vjs-videojs-modal_open';
+    this.playerClassNamePos = 'vjs-videojs-modal_' + options.position;
   }
 
   open() {
     const player = this.player();
 
     player.addClass(this.playerClassName);
+    player.addClass(this.playerClassNamePos);
     super.open();
     player.trigger('slides:opened');
   }
@@ -23,6 +25,7 @@ class SlidesModal extends ModalDialog {
     const player = this.player();
 
     player.removeClass(this.playerClassName);
+    player.removeClass(this.playerClassNamePos);
     super.close();
     player.trigger('slides:closed');
   }

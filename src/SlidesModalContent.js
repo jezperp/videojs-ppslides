@@ -14,12 +14,14 @@ export default class SlidesModalContent {
   get slidesOptions() {
     const {
       position,
-      visibleSlides
+      visibleSlides,
+      slideinstances
     } = this.options;
 
     return {
       position,
-      visibleSlides
+      visibleSlides,
+      slideinstances
     };
   }
 
@@ -29,17 +31,7 @@ export default class SlidesModalContent {
     /* eslint-enable */
 
     wrapper.innerHTML = `<div class="vjs-ppslides">
-      <div class="vjs-ppslides__top hidden-sm">
-        <div class="vjs-ppslides__title">${this.player.localize('Slides')}</div>
-      </div>
-
-      <div class="vjs-ppslides__middle">
-
-      </div>
-
-      <div class="vjs-ppslides__bottom">
-
-      </div>
+        ${this._getSlidesItems().join('')}
     </div>`;
 
     this.content = wrapper.firstChild;
@@ -48,10 +40,10 @@ export default class SlidesModalContent {
   _getSlidesItems() {
     const slidesItems = [];
 
-    this.slides.forEach((slide) => {
+    this.options.slideinstances.forEach((slide) => {
       slidesItems.push(`
-        <li class="vjs-ppslides__slide">
-          <img src="${slide}" class="vjs-ppslides__img">
+        <li class="vjs-ppslides__slide${slide.active ? ' active' : ''}">
+          <img src="${slide.url}" data-id="${slide.id}" class="vjs-ppslides__img">
         </li>
       `);
     });

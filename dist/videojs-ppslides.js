@@ -1,4 +1,4 @@
-/*! @name videojs-ppslides @version 0.0.4 @license MIT */
+/*! @name videojs-ppslides @version 0.0.5 @license MIT */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('video.js')) :
   typeof define === 'function' && define.amd ? define(['video.js'], factory) :
@@ -15,7 +15,7 @@
 
   var inheritsLoose = _inheritsLoose;
 
-  var version = "0.0.4";
+  var version = "0.0.5";
 
   var Button = videojs.getComponent('Button');
   /**
@@ -91,14 +91,14 @@
       var wrapper = document.createElement('div');
       /* eslint-enable */
 
-      wrapper.innerHTML = "<div class=\"vjs-ppslides\">\n      <div class=\"vjs-ppslides__top hidden-sm\">\n        <div class=\"vjs-ppslides__title\">" + this.player.localize('Slides') + "</div>\n      </div>\n\n      <div class=\"vjs-ppslides__middle\">\n\n      </div>\n\n      <div class=\"vjs-ppslides__bottom\">\n\n      </div>\n    </div>";
+      wrapper.innerHTML = "<div class=\"vjs-ppslides\">\n        " + this._getSlidesItems().join('') + "\n    </div>";
       this.content = wrapper.firstChild;
     };
 
     _proto._getSlidesItems = function _getSlidesItems() {
       var slidesItems = [];
-      this.slides.forEach(function (slide) {
-        slidesItems.push("\n        <li class=\"vjs-ppslides__slide\">\n          <img src=\"" + slide + "\" class=\"vjs-ppslides__img\">\n        </li>\n      ");
+      this.options.slideinstances.forEach(function (slide) {
+        slidesItems.push("\n        <li class=\"vjs-ppslides__slide" + (slide.active ? ' active' : '') + "\">\n          <img src=\"" + slide.url + "\" data-id=\"" + slide.id + "\" class=\"vjs-ppslides__img\">\n        </li>\n      ");
       });
       return slidesItems;
     };
@@ -108,10 +108,12 @@
       get: function get() {
         var _this$options = this.options,
             position = _this$options.position,
-            visibleSlides = _this$options.visibleSlides;
+            visibleSlides = _this$options.visibleSlides,
+            slideinstances = _this$options.slideinstances;
         return {
           position: position,
-          visibleSlides: visibleSlides
+          visibleSlides: visibleSlides,
+          slideinstances: slideinstances
         };
       }
     }]);
@@ -134,6 +136,7 @@
 
       _this = _ModalDialog.call(this, player, options) || this;
       _this.playerClassName = 'vjs-videojs-modal_open';
+      _this.playerClassNamePos = 'vjs-videojs-modal_' + options.position;
       return _this;
     }
 
@@ -142,6 +145,7 @@
     _proto.open = function open() {
       var player = this.player();
       player.addClass(this.playerClassName);
+      player.addClass(this.playerClassNamePos);
 
       _ModalDialog.prototype.open.call(this);
 
@@ -151,6 +155,7 @@
     _proto.close = function close() {
       var player = this.player();
       player.removeClass(this.playerClassName);
+      player.removeClass(this.playerClassNamePos);
 
       _ModalDialog.prototype.close.call(this);
 
@@ -185,7 +190,9 @@
       var content = new SlidesModalContent(this.player, this.options).getContent();
       this.modal = new SlidesModal(this.player, {
         content: content,
-        temporary: true
+        temporary: true,
+        pauseOnOpen: false,
+        position: this.options.position
       });
       this.el = this.modal.contentEl();
       this.player.addChild(this.modal);
@@ -200,17 +207,15 @@
     return SlidesOverlay;
   }(Component);
 
-  var Plugin = videojs.getPlugin('plugin'); // Default options for the plugin.
+  var Plugin = videojs.getPlugin('plugin'); // default options
 
   var defaults = {
     position: 'bottom',
     visibleSlides: 6,
     slideinstances: []
-  }; // Import components
+  }; // components
   /**
-   * An advanced Video.js plugin. For more information on the API
-   *
-   * See: https://blog.videojs.com/feature-spotlight-advanced-plugins/
+   * PowerPoint Slides Plugin.
    */
 
   var Ppslides =
@@ -218,19 +223,6 @@
   function (_Plugin) {
     inheritsLoose(Ppslides, _Plugin);
 
-    /**
-     * Create a Ppslides plugin instance.
-     *
-     * @param  {Player} player
-     *         A Video.js Player instance.
-     *
-     * @param  {Object} [options]
-     *         An optional options object.
-     *
-     *         While not a core part of the Video.js plugin architecture, a
-     *         second argument of options is a convenient way to accept inputs
-     *         from your plugin's caller.
-     */
     function Ppslides(player, options) {
       var _this;
 
@@ -242,20 +234,20 @@
         _this.player.addClass('vjs-ppslides');
 
         player.addClass('vjs-videojs-ppslides');
-        player.getChild('controlBar').addChild('SlidesButton', options);
-        player.addChild('SlidesOverlay', options);
+        player.getChild('controlBar').addChild('SlidesButton', _this.options);
+        player.addChild('SlidesOverlay', _this.options);
       });
 
       return _this;
     }
 
     return Ppslides;
-  }(Plugin); // Define default values for the plugin's `state` object here.
+  }(Plugin); // default values for the plugin's `state` object
 
 
-  Ppslides.defaultState = {}; // Include the version number.
+  Ppslides.defaultState = {}; // version
 
-  Ppslides.VERSION = version; // Register the plugin with video.js.
+  Ppslides.VERSION = version; // register plugin and components
 
   videojs.registerComponent('SlidesButton', SlidesButton);
   videojs.registerComponent('SlidesOverlay', SlidesOverlay);

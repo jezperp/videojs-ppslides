@@ -3,37 +3,21 @@ import {version as VERSION} from '../package.json';
 
 const Plugin = videojs.getPlugin('plugin');
 
-// Default options for the plugin.
+// default options
 const defaults = {
   position: 'bottom',
   visibleSlides: 6,
   slideinstances: []
 };
 
-// Import components
+// components
 import SlidesButton from './SlidesButton';
 import SlidesOverlay from './SlidesOverlay';
 
 /**
- * An advanced Video.js plugin. For more information on the API
- *
- * See: https://blog.videojs.com/feature-spotlight-advanced-plugins/
+ * PowerPoint Slides Plugin.
  */
 class Ppslides extends Plugin {
-
-  /**
-   * Create a Ppslides plugin instance.
-   *
-   * @param  {Player} player
-   *         A Video.js Player instance.
-   *
-   * @param  {Object} [options]
-   *         An optional options object.
-   *
-   *         While not a core part of the Video.js plugin architecture, a
-   *         second argument of options is a convenient way to accept inputs
-   *         from your plugin's caller.
-   */
   constructor(player, options) {
     // the parent class will add player under this.player
     super(player);
@@ -43,19 +27,19 @@ class Ppslides extends Plugin {
     this.player.ready(() => {
       this.player.addClass('vjs-ppslides');
       player.addClass('vjs-videojs-ppslides');
-      player.getChild('controlBar').addChild('SlidesButton', options);
-      player.addChild('SlidesOverlay', options);
+      player.getChild('controlBar').addChild('SlidesButton', this.options);
+      player.addChild('SlidesOverlay', this.options);
     });
   }
 }
 
-// Define default values for the plugin's `state` object here.
+// default values for the plugin's `state` object
 Ppslides.defaultState = {};
 
-// Include the version number.
+// version
 Ppslides.VERSION = VERSION;
 
-// Register the plugin with video.js.
+// register plugin and components
 videojs.registerComponent('SlidesButton', SlidesButton);
 videojs.registerComponent('SlidesOverlay', SlidesOverlay);
 videojs.registerPlugin('ppslides', Ppslides);
