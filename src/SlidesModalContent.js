@@ -31,7 +31,9 @@ export default class SlidesModalContent {
     /* eslint-enable */
 
     wrapper.innerHTML = `<div class="vjs-ppslides">
+      <ul class="vjs-ppslides__container">
         ${this._getSlidesItems().join('')}
+      </ul>
     </div>`;
 
     this.content = wrapper.firstChild;
@@ -43,7 +45,9 @@ export default class SlidesModalContent {
     this.options.slideinstances.forEach((slide) => {
       slidesItems.push(`
         <li class="vjs-ppslides__slide${slide.active ? ' active' : ''}">
-          <img src="${slide.url}" data-id="${slide.id}" class="vjs-ppslides__img">
+          <a href="#" class="vjs-ppslides__slide_link" data-timecode="${slide.timecode}" data-id="${slide.slide_id}">
+            <img src="${slide.url}" class="vjs-ppslides__img">
+          </a>
         </li>
       `);
     });

@@ -1,4 +1,4 @@
-/*! @name videojs-ppslides @version 0.0.5 @license MIT */
+/*! @name videojs-ppslides @version 0.0.6 @license MIT */
 'use strict';
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -7,7 +7,7 @@ var _inheritsLoose = _interopDefault(require('@babel/runtime/helpers/inheritsLoo
 var videojs = _interopDefault(require('video.js'));
 var _createClass = _interopDefault(require('@babel/runtime/helpers/createClass'));
 
-var version = "0.0.5";
+var version = "0.0.6";
 
 var Button = videojs.getComponent('Button');
 /**
@@ -27,6 +27,8 @@ function (_Button) {
     _this.addClass('vjs-menu-button');
 
     _this.addClass('vjs-slides-control');
+
+    _this.addClass('vjs-icon-square');
 
     _this.addClass('vjs-icon-slides');
 
@@ -65,14 +67,14 @@ function () {
     var wrapper = document.createElement('div');
     /* eslint-enable */
 
-    wrapper.innerHTML = "<div class=\"vjs-ppslides\">\n        " + this._getSlidesItems().join('') + "\n    </div>";
+    wrapper.innerHTML = "<div class=\"vjs-ppslides\">\n      <ul class=\"vjs-ppslides__container\">\n        " + this._getSlidesItems().join('') + "\n      </ul>\n    </div>";
     this.content = wrapper.firstChild;
   };
 
   _proto._getSlidesItems = function _getSlidesItems() {
     var slidesItems = [];
     this.options.slideinstances.forEach(function (slide) {
-      slidesItems.push("\n        <li class=\"vjs-ppslides__slide" + (slide.active ? ' active' : '') + "\">\n          <img src=\"" + slide.url + "\" data-id=\"" + slide.id + "\" class=\"vjs-ppslides__img\">\n        </li>\n      ");
+      slidesItems.push("\n        <li class=\"vjs-ppslides__slide" + (slide.active ? ' active' : '') + "\">\n          <a href=\"#\" class=\"vjs-ppslides__slide_link\" data-timecode=\"" + slide.timecode + "\" data-id=\"" + slide.slide_id + "\">\n            <img src=\"" + slide.url + "\" class=\"vjs-ppslides__img\">\n          </a>\n        </li>\n      ");
     });
     return slidesItems;
   };
@@ -109,8 +111,9 @@ function (_ModalDialog) {
     var _this;
 
     _this = _ModalDialog.call(this, player, options) || this;
+    _this.options = options;
     _this.playerClassName = 'vjs-videojs-modal_open';
-    _this.playerClassNamePos = 'vjs-videojs-modal_' + options.position;
+    _this.playerClassNamePos = 'vjs-videojs-modal_' + _this.options.position;
     return _this;
   }
 
@@ -118,12 +121,34 @@ function (_ModalDialog) {
 
   _proto.open = function open() {
     var player = this.player();
+    /* eslint-disable */
+
+    var slideElements = document.getElementsByClassName('vjs-ppslides__slide_link');
+    /* eslint-enable */
+
     player.addClass(this.playerClassName);
     player.addClass(this.playerClassNamePos);
 
     _ModalDialog.prototype.open.call(this);
 
     player.trigger('slides:opened');
+    Array.from(slideElements).forEach(function (element) {
+      var _this2 = this;
+
+      if (this.options.isLive) {
+        element.addEventListener('click', function (e) {
+          var id = e.target.parentElement.getAttribute('data-id');
+
+          _this2.zoom(id);
+        });
+      } else {
+        element.addEventListener('click', function (e) {
+          var time = e.target.parentElement.getAttribute('data-timecode');
+
+          _this2.seek(time);
+        });
+      }
+    }, this);
   };
 
   _proto.close = function close() {
@@ -134,6 +159,15 @@ function (_ModalDialog) {
     _ModalDialog.prototype.close.call(this);
 
     player.trigger('slides:closed');
+  };
+
+  _proto.seek = function seek(time) {
+    var player = this.player();
+    player.currentTime(time);
+    player.play();
+  };
+
+  _proto.zoom = function zoom(id) {// const player = this.player();
   };
 
   return SlidesModal;
@@ -164,9 +198,10 @@ function (_Component) {
     var content = new SlidesModalContent(this.player, this.options).getContent();
     this.modal = new SlidesModal(this.player, {
       content: content,
-      temporary: true,
+      temporary: false,
       pauseOnOpen: false,
-      position: this.options.position
+      position: this.options.position,
+      isLive: this.options.isLive
     });
     this.el = this.modal.contentEl();
     this.player.addChild(this.modal);
@@ -183,11 +218,50 @@ function (_Component) {
 
 var Plugin = videojs.getPlugin('plugin'); // default options
 
+/* eslint-disable */
+
 var defaults = {
   position: 'bottom',
+  isLive: false,
   visibleSlides: 6,
-  slideinstances: []
-}; // components
+  slideinstances: [{
+    slide_id: 1,
+    timecode: 0,
+    url: 'https://picsum.photos/id/1/1280/720'
+  }, {
+    slide_id: 2,
+    timecode: 5,
+    url: 'https://picsum.photos/id/2/1280/720'
+  }, {
+    slide_id: 3,
+    timecode: 10,
+    url: 'https://picsum.photos/id/3/1280/720'
+  }, {
+    slide_id: 4,
+    timecode: 15,
+    url: 'https://picsum.photos/id/4/1280/720'
+  }, {
+    slide_id: 5,
+    timecode: 20,
+    url: 'https://picsum.photos/id/5/1280/720'
+  }, {
+    slide_id: 6,
+    timecode: 25,
+    url: 'https://picsum.photos/id/6/1280/720'
+  }, {
+    slide_id: 7,
+    timecode: 30,
+    url: 'https://picsum.photos/id/7/1280/720'
+  }, {
+    slide_id: 8,
+    timecode: 35,
+    url: 'https://picsum.photos/id/8/1280/720'
+  }, {
+    slide_id: 9,
+    timecode: 40,
+    url: 'https://picsum.photos/id/9/1280/720'
+  }]
+};
 /**
  * PowerPoint Slides Plugin.
  */

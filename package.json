@@ -1,6 +1,6 @@
 {
   "name": "videojs-ppslides",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Plugin with Power Point presentation slides inside videojs player",
   "main": "dist/videojs-ppslides.cjs.js",
   "module": "dist/videojs-ppslides.es.js",
@@ -19,6 +19,8 @@
     "prebuild": "npm run clean",
     "build": "npm-run-all -p build:*",
     "build:js": "rollup -c scripts/rollup.config.js",
+    "build:css": "npm-run-all build:css:sass",
+    "build:css:sass": "node-sass src/plugin.scss dist/videojs-ppslides.css --output-style=compressed --linefeed=lf",
     "clean": "shx rm -rf ./dist ./test/dist",
     "postclean": "shx mkdir -p ./dist ./test/dist",
     "lint": "vjsstandard",
@@ -34,6 +36,7 @@
     "version": "is-prerelease || npm run update-changelog && git add CHANGELOG.md",
     "watch": "npm-run-all -p watch:*",
     "watch:js": "npm run build:js -- -w",
+    "watch:css": "node-sass src/plugin.scss dist/videojs-share.css --output-style=compressed --linefeed=lf --watch src/**/*.scss",
     "prepublishOnly": "npm-run-all build test:verify"
   },
   "engines": {
@@ -75,6 +78,7 @@
   "devDependencies": {
     "@videojs/generator-helpers": "~1.0.0",
     "karma": "^4.0.0",
+    "node-sass": "^4.14.1",
     "rollup": "^1.12.0",
     "sinon": "^7.2.2",
     "videojs-generate-karma-config": "~5.2.0",

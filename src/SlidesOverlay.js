@@ -19,9 +19,10 @@ class SlidesOverlay extends Component {
 
     this.modal = new SlidesModal(this.player, {
       content,
-      temporary: true,
+      temporary: false,
       pauseOnOpen: false,
-      position: this.options.position
+      position: this.options.position,
+      isLive: this.options.isLive
     });
 
     this.el = this.modal.contentEl();

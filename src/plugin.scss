@@ -1,0 +1,45 @@
+.video-js {
+	.vjs-modal-dialog {
+		position: absolute;
+		top: auto;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: calc(87px + 2rem); // should be calculated based on slide image height
+		background: #000;
+		.vjs-modal-dialog-content {
+			padding: 1rem;
+			background: #000;
+		}
+	}
+	.vjs-ppslides {
+		width: 100%;
+		height: 100%;
+		overflow-y: hidden;
+		overflow-x: auto;
+		.vjs-ppslides__container {
+			height: 100%;
+			width: 1395px; // should be calculated based on slide image width * nr. of slides
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: row;
+			.vjs-ppslides__slide {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				width: 155px; // should be calculated based on player width / nr. of visible slides
+				height: 87px; // should be calculated based on slide width * 0.5625 (if 16:9)
+				.vjs-ppslides__slide_link {
+					display: block;
+					width: 100%;
+					height: 100%;
+					img {
+						width: 100%;
+						height: auto;
+					}
+				}
+			}
+		}
+	}
+}

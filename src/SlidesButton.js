@@ -10,6 +10,7 @@ class SlidesButton extends Button {
 
     this.addClass('vjs-menu-button');
     this.addClass('vjs-slides-control');
+    this.addClass('vjs-icon-square');
     this.addClass('vjs-icon-slides');
     this.controlText(player.localize('Slides'));
   }
